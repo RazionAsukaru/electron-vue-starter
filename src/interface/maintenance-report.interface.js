@@ -1,4 +1,4 @@
-export class MaintenanceOrder {
+export class MaintenanceReport {
   id = ''
   technicianName = ''
   unitSerialNumber = ''

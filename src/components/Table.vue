@@ -1,13 +1,16 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
 import { defineProps, toRefs, toValue } from 'vue'
+import { NSpace, NDataTable } from 'naive-ui'
 
-const props = defineProps(['data'])
+const props = defineProps(['items'])
 
-const { data } = toRefs(props)
-console.log(toValue(data));
-let maintenanceOrders = toValue(props.data);
+const { items } = toRefs(props)
 
+const idColumn = {
+  title: 'ID',
+  key: 'id'
+}
 const technicianNameColumn = {
   title: 'Technician Name',
   key: 'technicianName'
@@ -46,6 +49,7 @@ const maintenanceCategoryColumn = {
 }
 
 const columns = [
+  idColumn,
   technicianNameColumn,
   unitSerialNumberColumn,
   unitModelColumn,
@@ -59,16 +63,16 @@ const columns = [
 </script>
 
 <template>
-  <div class="container">
-    <n-space>
-      <n-data-table
-        :columns="columns"
-        :loading="loadingRef"
-        :data="maintenanceOrders"
-        :max-height="500"
-        :scroll-x="1800"
-        virtual-scroll
-      />
-    </n-space>
+  <div style="padding: 0 3rem; margin-top: 20px; max-height: 70vh">
+    <n-data-table
+      :bordered="false"
+      :single-line="false"
+      :columns="columns"
+      :loading="loadingRef"
+      :data="items"
+      :max-height="'65vh'"
+      :scroll-x="1800"
+      virtual-scroll
+    />
   </div>
 </template>
