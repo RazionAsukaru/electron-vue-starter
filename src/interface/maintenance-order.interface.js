@@ -1,4 +1,5 @@
 export class MaintenanceOrder {
+  id = ''
   technicianName = ''
   unitSerialNumber = ''
   unitModel = ''
