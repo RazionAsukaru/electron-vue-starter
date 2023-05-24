@@ -2,7 +2,9 @@ import { app } from '@electron/remote'
 import fs from 'fs'
 import pathModule from 'path'
 
-const filePath = pathModule.join(app.getAppPath(), 'maintenance-report.json')
+const filePath = pathModule
+  .join(app.getAppPath(), 'maintenance-report.json')
+  .replace('app.asar', '')
 
 const init = () => {
   if (fs.existsSync(filePath)) return
