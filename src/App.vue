@@ -1,16 +1,15 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
 import { NSpace, NButton, NIcon } from 'naive-ui'
-import { MaintenanceReport } from './interface/maintenance-report.interface'
 import service from './assets/data/maintenance-report.data'
 import Table from './components/Table.vue'
+import AddDialog from './components/AddDialog.vue'
 import { ref } from 'vue'
-import { DocumentOutline, AddOutline } from '@vicons/ionicons5'
+import { DocumentOutline } from '@vicons/ionicons5'
 
 service.init()
 
 let items = ref([])
-let item = new MaintenanceReport()
 
 const getOrder = () => {
   items.value = [...service.find()]
@@ -32,7 +31,7 @@ getOrder()
 </script>
 
 <template>
-  <h1 style="padding: 0 3rem">Maintenance Report</h1>
+  <h1 style="padding: 0 3rem">Maintenance Report {{ showModal }}</h1>
   <n-space :justify="'end'" style="padding: 0 3rem">
     <n-button type="primary">
       <n-icon size="18">
@@ -40,12 +39,7 @@ getOrder()
       </n-icon>
       <span style="margin-left: 10px">Export to Excel</span>
     </n-button>
-    <n-button type="info">
-      <n-icon size="18">
-        <AddOutline />
-      </n-icon>
-      <span style="margin-left: 10px"> Tambah </span>
-    </n-button>
+    <AddDialog />
   </n-space>
   <Table :items="items" />
 </template>
