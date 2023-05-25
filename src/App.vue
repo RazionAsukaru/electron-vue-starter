@@ -36,7 +36,7 @@ getOrder()
 <template>
   <h1 style="padding: 0 3rem">Maintenance Report {{ showModal }}</h1>
   <n-space :justify="'end'" style="padding: 0 3rem">
-    <n-button type="primary" @click="downloadXslx">
+    <n-button type="primary" @click="downloadXslx" :disabled="!items.length" >
       <n-icon size="18">
         <DocumentOutline />
       </n-icon>
