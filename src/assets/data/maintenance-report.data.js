@@ -22,6 +22,8 @@ const find = () => {
 
 const create = item => {
   const existedData = find()
+  item.id = existedData.length ? +existedData[existedData.length - 1].id + 1 : 0
+
   fs.writeFileSync(filePath, JSON.stringify([...existedData, item]))
 }
 
@@ -32,11 +34,12 @@ const findOne = filters => {
   }
 
   const existedData = find()
-  const idx = existedData.findIdx(data => {
+  const idx = existedData.findIndex(data => {
     let result = true
     attrfilters.forEach(({ attr, value }) => result && data[attr] === value)
     return result
   })
+  console.log(idx)
   return { idx, value: existedData[idx] }
 }
 
@@ -47,7 +50,11 @@ const findById = id => {
 const update = item => {
   const existedData = find()
   const { idx: foundIdx } = findById(item.id)
-  if (foundIdx !== -1) return { error: 'Order Not Found!' }
+  console.log(foundIdx)
+  if (foundIdx === -1) {
+    return { error: 'Order Not Found!' }
+  }
+  console.log(existedData[foundIdx])
   existedData[foundIdx] = item
   fs.writeFileSync(filePath, JSON.stringify([...existedData]))
 }
@@ -55,7 +62,7 @@ const update = item => {
 const remove = id => {
   const existedData = find()
   const { idx: foundIdx } = findById(id)
-  if (foundIdx !== -1) return { error: 'Order Not Found!' }
+  if (foundIdx === -1) return { error: 'Order Not Found!' }
   existedData.splice(id, 1)
   fs.writeFileSync(filePath, JSON.stringify([...existedData]))
 }

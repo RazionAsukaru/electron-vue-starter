@@ -39,7 +39,7 @@ getOrder()
       </n-icon>
       <span style="margin-left: 10px">Export to Excel</span>
     </n-button>
-    <AddDialog />
+    <AddDialog @created="getOrder" />
   </n-space>
-  <Table :items="items" />
+  <Table :items="items" @updated="getOrder" />
 </template>

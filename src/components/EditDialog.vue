@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, toRef, defineProps, defineEmits } from 'vue'
 import {
   NIcon,
   NButton,
@@ -9,44 +9,43 @@ import {
   NForm,
   NFormItem,
   NInput,
-  NDatePicker
+  NSelect
 } from 'naive-ui'
-import { AddOutline } from '@vicons/ionicons5'
-import service from './../assets/data/maintenance-report.data'
-import technicianService from './../assets/data/technician.data'
-import { MaintenanceReport } from './../interface/maintenance-report.interface'
+import { PencilOutline } from '@vicons/ionicons5'
+import service from '../assets/data/maintenance-report.data'
+import technicianService from '../assets/data/technician.data'
 
 technicianService.init()
 
 const showModal = ref(false)
 
-const emit = defineEmits(['created'])
+const prop = defineProps(['reportItem'])
+const emit = defineEmits(['updated'])
 
-let item = ref(new MaintenanceReport())
+const item = toRef(prop.reportItem)
 
 const technicianNames = technicianService.find()
 
 const submit = () => {
-  service.create(item.value)
+  service.update(item.value)
   showModal.value = false
-  emit('created', true)
-  item = ref(new MaintenanceReport())
+  emit('updated', true)
 }
 </script>
 
 <template>
   <div>
-    <n-button type="info" @click="showModal = true">
+    <n-button type="success" @click="showModal = true">
       <n-icon size="18" style="margin-right: 5px">
-        <AddOutline />
+        <PencilOutline />
       </n-icon>
-      Add
+      Edit
     </n-button>
     <n-modal
       v-model:show="showModal"
       style="margin-left: 40px; margin-right: 40px"
       preset="card"
-      title="Add Report"
+      title="Edit Report"
       :mask-closable="false"
       size="huge"
       aria-modal="true"
@@ -96,29 +95,16 @@ const submit = () => {
         </n-form-item>
 
         <n-form-item label="WO Created">
-          <!-- <n-input
+          <n-input
             v-model:value="item.woCreated"
             placeholder="Please Input WO Created"
-          /> -->
-          <n-date-picker
-            v-model:value="item.woCreated"
-            type="date"
-            style="width: 100%;"
-            clearable
           />
         </n-form-item>
 
         <n-form-item label="WO Closed">
-          <!-- <n-input
+          <n-input
             v-model:value="item.woClosed"
             placeholder="Please Input WO Closed"
-          /> -->
-          
-          <n-date-picker
-            v-model:value="item.woClosed"
-            type="date"
-            style="width: 100%;"
-            clearable
           />
         </n-form-item>
 
@@ -139,7 +125,7 @@ const submit = () => {
             "
             @click="submit"
           >
-            Add
+            Edit
           </n-button>
         </n-space>
       </template>

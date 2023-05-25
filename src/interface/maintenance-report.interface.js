@@ -6,7 +6,8 @@ export class MaintenanceReport {
   manufacturerSerialNumber = ''
   smuComponent = ''
   maintenanceDescription = ''
-  woCreated = ''
-  woClosed = ''
+  woCreated = new Date()
+  woClosed = new Date()
   maintenanceCategory = ''
+  actions = ''
 }
