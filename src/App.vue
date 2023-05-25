@@ -6,6 +6,7 @@ import Table from './components/Table.vue'
 import AddDialog from './components/AddDialog.vue'
 import { ref } from 'vue'
 import { DocumentOutline } from '@vicons/ionicons5'
+import { utils, writeFile } from 'xlsx'
 
 service.init()
 
@@ -14,17 +15,19 @@ let items = ref([])
 const getOrder = () => {
   items.value = [...service.find()]
 }
-const createOrder = item => {
-  service.create(item)
-}
-const updateOrder = item => {
-  service.update(item)
-}
-const deleteOrder = () => {
-  console.log('Add Order')
-}
-const findOrder = () => {
-  service.findOne()
+
+const downloadXslx = () => {
+  const itemValues = items.value.map(d => {
+    delete d.id
+    return d
+  })
+  const data = utils.json_to_sheet(itemValues)
+  const wb = utils.book_new()
+  utils.book_append_sheet(wb, data, 'data')
+
+  const date = new Date()
+  const filename = `MaintenanceReport-${date.getFullYear()}${date.getMonth()}${date.getDate()}${date.getHours()}${date.getMinutes()}.xlsx`
+  writeFile(wb, filename)
 }
 
 getOrder()
@@ -33,7 +36,7 @@ getOrder()
 <template>
   <h1 style="padding: 0 3rem">Maintenance Report {{ showModal }}</h1>
   <n-space :justify="'end'" style="padding: 0 3rem">
-    <n-button type="primary">
+    <n-button type="primary" @click="downloadXslx">
       <n-icon size="18">
         <DocumentOutline />
       </n-icon>

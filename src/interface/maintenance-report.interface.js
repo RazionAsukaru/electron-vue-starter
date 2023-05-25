@@ -9,5 +9,4 @@ export class MaintenanceReport {
   woCreated = new Date()
   woClosed = new Date()
   maintenanceCategory = ''
-  actions = ''
 }
