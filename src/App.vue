@@ -1,19 +1,23 @@
 <!-- eslint-disable no-unused-vars -->
 <script setup lang="ts">
 import { NSpace, NButton, NIcon } from 'naive-ui';
-// import service from './assets/data/maintenance-report.data';
 import Table from './components/Table.vue';
 import AddDialog from './components/AddDialog.vue';
 import { ref } from 'vue';
 import { DocumentOutline } from '@vicons/ionicons5';
 import { utils, writeFile } from 'xlsx';
-
-// service.init();
+import { find } from './firebase/maintenance-report.firebase';
 
 let items: any = ref([]);
 
+const temp = find().value;
+
+console.log(temp);
+
 const getOrder = () => {
-    items.value = [/* ...service.find() */];
+    items.value = [
+        /* ...service.find() */
+    ];
 };
 
 const downloadXslx = () => {

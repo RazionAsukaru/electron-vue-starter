@@ -1,5 +1,18 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue';
+import './style.css';
+import App from './App.vue';
+import { VueFire, VueFireAuth } from 'vuefire';
+import { firebaseApp } from './firebase/connection';
 
-createApp(App).mount('#app').$nextTick(() => postMessage({ payload: 'removeLoading' }, '*'))
+const app = createApp(App);
+
+app.use(VueFire, {
+    // imported above but could also just be created here
+    firebaseApp,
+    modules: [
+        // we will see other modules later on
+        VueFireAuth(),
+    ],
+});
+
+app.mount('#app').$nextTick(() => postMessage({ payload: 'removeLoading' }, '*'));
