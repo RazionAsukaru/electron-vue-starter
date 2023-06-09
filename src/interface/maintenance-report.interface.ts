@@ -1,12 +1,12 @@
 export class MaintenanceReport {
-    id = '';
-    technicianName = '';
+    id?: string = '';
+    technicianName = 'asdsdd';
     unitSerialNumber = '';
     unitModel = '';
     manufacturerSerialNumber = '';
     smuComponent = '';
     maintenanceDescription = '';
-    woCreated = new Date();
+    woCreated = '2222-5-19';
     woClosed = new Date();
     maintenanceCategory = '';
 }

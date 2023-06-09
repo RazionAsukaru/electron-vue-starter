@@ -3,25 +3,19 @@
 import { ref } from 'vue';
 import { NIcon, NButton, NModal, NSpace, NForm, NFormItem, NInput, NDatePicker } from 'naive-ui';
 import { AddOutline } from '@vicons/ionicons5';
-// import service from './../assets/data/maintenance-report.data';
-// import technicianService from './../assets/data/technician.data';
 import { MaintenanceReport } from './../interface/maintenance-report.interface';
-// import {  } from "fire";
-
-// technicianService.init();
+import { create } from '../firebase/maintenance-report.firebase';
 
 const showModal = ref(false);
 
-const emit = defineEmits(['created']);
-
 let item = ref(new MaintenanceReport());
 
-// const technicianNames = technicianService.find()
+const woCreated = ref(1183135260000);
+const woClosed = ref(1183135260000);
 
 const submit = () => {
-    // service.create(item.value);
+    create(item.value);
     showModal.value = false;
-    emit('created', true);
     item = ref(new MaintenanceReport());
 };
 </script>
@@ -77,7 +71,7 @@ const submit = () => {
             v-model:value="item.woCreated"
             placeholder="Please Input WO Created"
           /> -->
-                    <n-date-picker v-model="item.woCreated" type="date" style="width: 100%" clearable />
+                    <n-date-picker v-model="woCreated" type="date" style="width: 100%" clearable />
                 </n-form-item>
 
                 <n-form-item label="WO Closed">
@@ -86,7 +80,7 @@ const submit = () => {
             placeholder="Please Input WO Closed"
           /> -->
 
-                    <n-date-picker v-model="item.woClosed" type="date" style="width: 100%" clearable />
+                    <n-date-picker v-model="woClosed" type="date" style="width: 100%" clearable />
                 </n-form-item>
 
                 <n-form-item label="Maintenance Category">

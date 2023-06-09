@@ -5,13 +5,19 @@ import { NButton, NSpace, NTable, NIcon } from 'naive-ui';
 // import service from '../assets/data/maintenance-report.data'
 import EditDialog from './EditDialog.vue';
 import { TrashBinOutline } from '@vicons/ionicons5';
+import { remove } from '../firebase/maintenance-report.firebase';
+import { MaintenanceReport } from '../interface/maintenance-report.interface';
 
 const props = defineProps(['items']);
 const emit = defineEmits(['updated']);
 
+const convertItem = (item: MaintenanceReport) => {
+    return item;
+};
+
 const { items } = toRefs(props);
 const deleteItem = (id: string) => {
-    //   service.remove(id)
+    remove(id);
     console.log(id);
     emit('updated', true);
 };
@@ -47,7 +53,7 @@ const deleteItem = (id: string) => {
                     <td>{{ item.maintenanceCategory || '-' }}</td>
                     <td>
                         <n-space :justify="'end'">
-                            <EditDialog :reportItem="{ ...item }" @updated="emit('updated', true)" />
+                            <EditDialog :reportItem="{ ...convertItem(item) }" @updated="emit('updated', true)" />
                             <n-button type="error" @click="deleteItem(item.id)">
                                 <n-icon size="18" style="margin-right: 5px">
                                     <TrashBinOutline />

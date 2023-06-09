@@ -1,7 +1,7 @@
 import { createApp } from 'vue';
 import './style.css';
 import App from './App.vue';
-import { VueFire, VueFireAuth } from 'vuefire';
+import { VueFire } from 'vuefire';
 import { firebaseApp } from './firebase/connection';
 
 const app = createApp(App);
@@ -11,7 +11,7 @@ app.use(VueFire, {
     firebaseApp,
     modules: [
         // we will see other modules later on
-        VueFireAuth(),
+        // VueFireAuth(),
     ],
 });
 

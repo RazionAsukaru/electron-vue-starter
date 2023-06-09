@@ -3,22 +3,16 @@
 import { NSpace, NButton, NIcon } from 'naive-ui';
 import Table from './components/Table.vue';
 import AddDialog from './components/AddDialog.vue';
-import { ref } from 'vue';
+// import { ref } from 'vue';
 import { DocumentOutline } from '@vicons/ionicons5';
 import { utils, writeFile } from 'xlsx';
 import { find } from './firebase/maintenance-report.firebase';
 
-let items: any = ref([]);
+// let items: any = ref([]);
 
-const temp = find().value;
+const items = find();
+console.log(items.value);
 
-console.log(temp);
-
-const getOrder = () => {
-    items.value = [
-        /* ...service.find() */
-    ];
-};
 
 const downloadXslx = () => {
     const itemValues = items.value.map((d: any) => {
@@ -46,7 +40,7 @@ const downloadXslx = () => {
             </n-icon>
             <span style="margin-left: 10px">Export to Excel</span>
         </n-button>
-        <AddDialog @created="getOrder" />
+        <AddDialog />
     </n-space>
-    <Table :items="items" @updated="getOrder" />
+    <Table :items="items" />
 </template>

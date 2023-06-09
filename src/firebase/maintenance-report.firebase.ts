@@ -1,55 +1,45 @@
-import { collection } from '@firebase/firestore';
 import { db } from './connection';
+import { collection, addDoc, updateDoc, doc, deleteDoc } from '@firebase/firestore';
 import { useCollection } from 'vuefire';
-// import { MaintenanceReport } from '../interface/maintenance-report.interface';
+import { MaintenanceReport } from '../interface/maintenance-report.interface';
 
 // here we can export reusable database references
-const ref = collection(db, 'maintenanceReport');
+const collectionRef = collection(db, 'maintenanceReport');
+const docRef = (id: string) => doc(db, 'maintenanceReport', id);
 
 export const find = () => {
-    return useCollection(ref);
+    return useCollection(collectionRef);
 };
 
-// export const create = (item: MaintenanceReport) => {
-//     ref.
-// };
+export const create = async (item: MaintenanceReport) => {
+    try {
+        const res = await addDoc(collectionRef, {
+            ...item,
+        });
+        console.log('Document written with ID: ', res.id);
+    } catch (e) {
+        console.error('Error adding document: ', e);
+    }
+};
 
-/*   const findOne = (filters: any) => {
-    let attrfilters: any = []
-    for (const property in filters) {
-      attrfilters.push({ attr: property, value: filters[property] })
+export const update = async (item: MaintenanceReport) => {
+    if (!!!item.id) return;
+
+    try {
+        console.log(item);
+
+        await updateDoc(docRef(item.id), {
+            ...item,
+        });
+    } catch (e) {
+        console.error('Error adding document: ', e);
     }
-  
-    const existedData = find()
-    const idx = existedData.findIndex((data: any) => {
-      let result = true
-      attrfilters.forEach(({ attr, value }: any) => result && data[attr] === value)
-      return result
-    })
-    console.log(idx)
-    return { idx, value: existedData[idx] }
-  }
-  
-  const findById = (id: string) => {
-    return findOne({ id })
-  }
-  
-  const update = (item: any) => {
-    const existedData = find()
-    const { idx: foundIdx } = findById(item.id)
-    console.log(foundIdx)
-    if (foundIdx === -1) {
-      return { error: 'Order Not Found!' }
+};
+
+export const remove = async (id: string) => {
+    try {
+        await deleteDoc(docRef(id));
+    } catch (e) {
+        console.error('Error adding document: ', e);
     }
-    console.log(existedData[foundIdx])
-    existedData[foundIdx] = item
-    fs.writeFileSync(filePath, JSON.stringify([...existedData]))
-  }
-  
-  const remove = (id: string) => {
-    const existedData = find()
-    const { idx: foundIdx } = findById(id)
-    if (foundIdx === -1) return { error: 'Order Not Found!' }
-    existedData.splice(id, 1)
-    fs.writeFileSync(filePath, JSON.stringify([...existedData]))
-  } */
+};
