@@ -1,6 +1,6 @@
 <!-- eslint-disable no-unused-vars -->
-<script setup>
-import { ref, toRef, defineProps, defineEmits } from 'vue'
+<script setup lang="ts">
+import { ref, toRef } from 'vue'
 import {
   NIcon,
   NButton,
@@ -8,14 +8,13 @@ import {
   NSpace,
   NForm,
   NFormItem,
-  NInput,
-  NSelect
+  NInput
 } from 'naive-ui'
 import { PencilOutline } from '@vicons/ionicons5'
-import service from '../assets/data/maintenance-report.data'
-import technicianService from '../assets/data/technician.data'
+// import service from '../assets/data/maintenance-report.data'
+// import technicianService from '../assets/data/technician.data'
 
-technicianService.init()
+// technicianService.init()
 
 const showModal = ref(false)
 
@@ -24,10 +23,10 @@ const emit = defineEmits(['updated'])
 
 const item = toRef(prop.reportItem)
 
-const technicianNames = technicianService.find()
+// const technicianNames = technicianService.find()
 
 const submit = () => {
-  service.update(item.value)
+//   service.update(item.value)
   showModal.value = false
   emit('updated', true)
 }
@@ -49,7 +48,7 @@ const submit = () => {
       :mask-closable="false"
       size="huge"
       aria-modal="true"
-      show-icon="false"
+      :show-icon="false"
     >
       <n-form :model="item">
         <n-form-item label="Technician Name">

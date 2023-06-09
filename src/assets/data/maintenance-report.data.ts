@@ -16,38 +16,38 @@ const init = () => {
 }
 
 const find = () => {
-  const rawdata = fs.readFileSync(filePath)
+  const rawdata: any = fs.readFileSync(filePath)
   return JSON.parse(rawdata)
 }
 
-const create = item => {
+const create = (item: any) => {
   const existedData = find()
   item.id = existedData.length ? +existedData[existedData.length - 1].id + 1 : 0
 
   fs.writeFileSync(filePath, JSON.stringify([...existedData, item]))
 }
 
-const findOne = filters => {
-  let attrfilters = []
+const findOne = (filters: any) => {
+  let attrfilters: any = []
   for (const property in filters) {
     attrfilters.push({ attr: property, value: filters[property] })
   }
 
   const existedData = find()
-  const idx = existedData.findIndex(data => {
+  const idx = existedData.findIndex((data: any) => {
     let result = true
-    attrfilters.forEach(({ attr, value }) => result && data[attr] === value)
+    attrfilters.forEach(({ attr, value }: any) => result && data[attr] === value)
     return result
   })
   console.log(idx)
   return { idx, value: existedData[idx] }
 }
 
-const findById = id => {
+const findById = (id: string) => {
   return findOne({ id })
 }
 
-const update = item => {
+const update = (item: any) => {
   const existedData = find()
   const { idx: foundIdx } = findById(item.id)
   console.log(foundIdx)
@@ -59,7 +59,7 @@ const update = item => {
   fs.writeFileSync(filePath, JSON.stringify([...existedData]))
 }
 
-const remove = id => {
+const remove = (id: string) => {
   const existedData = find()
   const { idx: foundIdx } = findById(id)
   if (foundIdx === -1) return { error: 'Order Not Found!' }

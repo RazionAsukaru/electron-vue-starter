@@ -24,7 +24,7 @@ const init = () => {
 }
 
 const find = () => {
-  const rawdata = fs.readFileSync(filePath)
+  const rawdata: any = fs.readFileSync(filePath)
   return JSON.parse(rawdata)
 }
 export default {
