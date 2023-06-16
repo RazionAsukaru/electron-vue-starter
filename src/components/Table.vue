@@ -18,13 +18,17 @@ const convertItem = (item: MaintenanceReport) => {
 const { items } = toRefs(props);
 const deleteItem = (id: string) => {
     remove(id);
-    console.log(id);
     emit('updated', true);
+};
+
+const formatDate = (val: string) => {
+    const date = new Date(val);
+    return date.getFullYear() + ' / ' + (date.getMonth() + 1) + ' / ' + date.getDate();
 };
 </script>
 
 <template>
-    <div style="max-height: 70vh; overflow: auto; width: 90vw; margin: 20px auto">
+    <div style="max-height: 70vh; overflow: auto; width: 100%; margin: 20px auto">
         <n-table :single-line="false" :striped="true">
             <thead>
                 <tr>
@@ -37,7 +41,7 @@ const deleteItem = (id: string) => {
                     <th>WO Created</th>
                     <th>WO Closed</th>
                     <th>Maintenance Category</th>
-                    <th>Action</th>
+                    <th style="width: 150px;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -48,8 +52,8 @@ const deleteItem = (id: string) => {
                     <td>{{ item.manufacturerSerialNumber || '-' }}</td>
                     <td>{{ item.smuComponent || '-' }}</td>
                     <td>{{ item.maintenanceDescription || '-' }}</td>
-                    <td>{{ item.woCreated || '-' }}</td>
-                    <td>{{ item.woClosed || '-' }}</td>
+                    <td>{{ !!item.woCreated ? formatDate(item.woCreated) : '-' }}</td>
+                    <td>{{ !!item.woClosed ? formatDate(item.woClosed) : '-' }}</td>
                     <td>{{ item.maintenanceCategory || '-' }}</td>
                     <td>
                         <n-space :justify="'end'">
@@ -67,3 +71,9 @@ const deleteItem = (id: string) => {
         </n-table>
     </div>
 </template>
+
+<style scoped>
+tr > th {
+    min-width: 100px;
+}
+</style>

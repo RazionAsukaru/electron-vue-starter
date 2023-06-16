@@ -5,16 +5,38 @@ import { NIcon, NButton, NModal, NSpace, NForm, NFormItem, NInput, NDatePicker }
 import { AddOutline } from '@vicons/ionicons5';
 import { MaintenanceReport } from './../interface/maintenance-report.interface';
 import { create } from '../firebase/maintenance-report.firebase';
+import { computed } from '@vue/reactivity';
 
 const showModal = ref(false);
 
 let item = ref(new MaintenanceReport());
 
-const woCreated = ref(1183135260000);
-const woClosed = ref(1183135260000);
+const disableSave = computed(
+    () =>
+        !!!item.value.technicianName ||
+        !!!item.value.unitSerialNumber ||
+        !!!item.value.unitModel ||
+        !!!item.value.manufacturerSerialNumber ||
+        !!!item.value.smuComponent ||
+        !!!item.value.maintenanceDescription ||
+        !!!item.value.woCreated ||
+        !!!item.value.woClosed ||
+        !!!item.value.maintenanceCategory
+);
 
 const submit = () => {
-    create(item.value);
+    const payload = {
+        ...item.value,
+    };
+    if (typeof payload.woCreated === 'number') {
+        payload.woCreated = new Date(payload.woCreated);
+    }
+    if (typeof payload.woClosed === 'number') {
+        payload.woClosed = new Date(payload.woClosed);
+    }
+    payload.woCreated = JSON.stringify(payload.woCreated).replace(/\\|\"/g, '');
+    payload.woClosed = JSON.stringify(payload.woClosed).replace(/\\|\"/g, '');
+    create(payload);
     showModal.value = false;
     item = ref(new MaintenanceReport());
 };
@@ -67,20 +89,11 @@ const submit = () => {
                 </n-form-item>
 
                 <n-form-item label="WO Created">
-                    <!-- <n-input
-            v-model:value="item.woCreated"
-            placeholder="Please Input WO Created"
-          /> -->
-                    <n-date-picker v-model="woCreated" type="date" style="width: 100%" clearable />
+                    <n-date-picker v-model:value="item.woCreated" type="date" style="width: 100%" clearable />
                 </n-form-item>
 
                 <n-form-item label="WO Closed">
-                    <!-- <n-input
-            v-model:value="item.woClosed"
-            placeholder="Please Input WO Closed"
-          /> -->
-
-                    <n-date-picker v-model="woClosed" type="date" style="width: 100%" clearable />
+                    <n-date-picker v-model:value="item.woClosed" type="date" style="width: 100%" clearable />
                 </n-form-item>
 
                 <n-form-item label="Maintenance Category">
@@ -93,7 +106,7 @@ const submit = () => {
             <template #footer>
                 <n-space justify="end">
                     <n-button @click="showModal = false"> Close </n-button>
-                    <n-button type="info" :disabled="!!!item.technicianName" @click="submit"> Add </n-button>
+                    <n-button type="info" :disabled="disableSave" @click="submit"> Add </n-button>
                 </n-space>
             </template>
         </n-modal>
