@@ -29,7 +29,7 @@ const formatDate = (val: string) => {
 
 <template>
     <div style="max-height: 70vh; overflow: auto; width: 100%; margin: 20px auto">
-        <n-table :single-line="false" :striped="true">
+        <n-table :single-line="true" :striped="true" style="background-color: white">
             <thead>
                 <tr>
                     <th>Technician Name</th>
@@ -41,7 +41,7 @@ const formatDate = (val: string) => {
                     <th>WO Created</th>
                     <th>WO Closed</th>
                     <th>Maintenance Category</th>
-                    <th style="width: 150px;">Action</th>
+                    <th style="width: 200px; text-align: right">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -58,11 +58,10 @@ const formatDate = (val: string) => {
                     <td>
                         <n-space :justify="'end'">
                             <EditDialog :reportItem="{ ...convertItem(item) }" @updated="emit('updated', true)" />
-                            <n-button type="error" @click="deleteItem(item.id)">
-                                <n-icon size="18" style="margin-right: 5px">
+                            <n-button title="Delete" secondary circle type="error" @click="deleteItem(item.id)">
+                                <n-icon size="22" style="font-weight: bold;">
                                     <TrashBinOutline />
                                 </n-icon>
-                                Delete
                             </n-button>
                         </n-space>
                     </td>
@@ -75,5 +74,6 @@ const formatDate = (val: string) => {
 <style scoped>
 tr > th {
     min-width: 100px;
+    background-color: transparent;
 }
 </style>

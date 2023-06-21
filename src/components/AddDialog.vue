@@ -44,7 +44,7 @@ const submit = () => {
 
 <template>
     <div>
-        <n-button type="info" @click="showModal = true">
+        <n-button title="Add Report" secondary type="info" @click="showModal = true">
             <n-icon size="18" style="margin-right: 5px">
                 <AddOutline />
             </n-icon>
@@ -52,7 +52,13 @@ const submit = () => {
         </n-button>
         <n-modal
             v-model:show="showModal"
-            style="margin-left: 40px; margin-right: 40px"
+            style="
+                margin-left: 40px;
+                margin-right: 40px;
+                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(10px);
+                background-color: rgba(255, 255, 255, 0.5);
+            "
             preset="card"
             title="Add Report"
             :mask-closable="false"
@@ -105,8 +111,8 @@ const submit = () => {
             </n-form>
             <template #footer>
                 <n-space justify="end">
-                    <n-button @click="showModal = false"> Close </n-button>
-                    <n-button type="info" :disabled="disableSave" @click="submit"> Add </n-button>
+                    <n-button secondary @click="showModal = false"> Close </n-button>
+                    <n-button secondary type="info" :disabled="disableSave" @click="submit"> Add </n-button>
                 </n-space>
             </template>
         </n-modal>
