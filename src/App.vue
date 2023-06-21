@@ -5,34 +5,9 @@ import Table from './components/Table.vue';
 import AddDialog from './components/AddDialog.vue';
 import { DocumentOutline } from '@vicons/ionicons5';
 import { utils, writeFile } from 'xlsx';
-// import { find } from './firebase/maintenance-report.firebase';
-import { MaintenanceReport } from './interface/maintenance-report.interface';
-import { ref } from 'vue';
+import { find } from './firebase/maintenance-report.firebase';
 
-const items = /* find() */ref([
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-    new MaintenanceReport(),
-]);
+const items = find();
 const downloadXslx = () => {
     const itemValues = items.value.map((d: any) => {
         delete d.id;
